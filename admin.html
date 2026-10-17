@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f2e9" />
+  <title>Admin Dashboard | Lakheru Cafe</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: "#F7F2E9",
+            coffee: "#493326",
+            caramel: "#B88A60",
+            olive: "#788267",
+            sand: "#E9DDCC"
+          },
+          fontFamily: {
+            sans: ["DM Sans", "sans-serif"],
+            serif: ["Playfair Display", "serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { background: #F7F2E9; }
+  </style>
+</head>
+
+<body class="font-sans text-coffee antialiased min-h-screen flex flex-col">
+
+  <!-- LOGIN VIEW -->
+  <div id="login-section" class="flex-1 flex items-center justify-center p-5">
+    <div class="w-full max-w-md rounded-3xl bg-white p-8 shadow-md border border-coffee/10">
+      <div class="text-center mb-8">
+        <h1 class="font-serif text-3xl font-bold">LAKHERU<span class="text-caramel">.</span></h1>
+        <p class="text-xs uppercase tracking-[0.25em] text-coffee/60 mt-1">Owner Portal</p>
+      </div>
+
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label class="block text-sm font-semibold mb-2" for="login-email">Email Address</label>
+          <input type="email" id="login-email" required value="admin@lakherucafe.com"
+            class="w-full rounded-xl border border-coffee/15 px-4 py-3.5 outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20 bg-cream/30" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2" for="login-password">Password</label>
+          <input type="password" id="login-password" required placeholder="Enter password"
+            class="w-full rounded-xl border border-coffee/15 px-4 py-3.5 outline-none focus:border-caramel focus:ring-2 focus:ring-caramel/20 bg-cream/30" />
+        </div>
+        <p id="login-error" class="text-xs text-red-600 hidden font-medium">Invalid email or password. Use Lakheru@2026</p>
+        <button type="submit" class="w-full rounded-full bg-coffee py-4 font-bold text-white transition hover:bg-caramel">
+          Owner Login →
+        </button>
+      </form>
+      <div class="mt-6 text-center">
+        <a href="index.html" class="text-xs text-coffee/60 hover:text-coffee underline">← Back to Customer Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD VIEW (Hidden initially) -->
+  <div id="dashboard-section" class="hidden flex-1 flex flex-col">
+    <!-- Top Nav -->
+    <header class="border-b border-coffee/10 bg-cream/95 backdrop-blur-md sticky top-0 z-50">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+        <div>
+          <span class="font-serif text-2xl font-bold tracking-wide">LAKHERU<span class="text-caramel">.</span></span>
+          <span class="ml-3 rounded-full bg-sand px-3 py-1 text-xs font-semibold text-coffee/80">Owner Dashboard</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="index.html" target="_blank" class="text-xs font-semibold underline text-coffee/70 hover:text-coffee">View Live Site ↗</a>
+          <button id="logout-btn" class="rounded-full border border-coffee/20 px-4 py-2 text-xs font-bold transition hover:bg-coffee hover:text-white">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="mx-auto max-w-7xl w-full px-5 py-8 flex-1">
+      
+      <!-- Tabs Header -->
+      <div class="flex border-b border-coffee/15 gap-8 mb-8">
+        <button onclick="switchTab('orders')" id="tab-btn-orders" class="pb-3 font-serif text-lg font-bold border-b-2 border-caramel text-coffee">
+          Orders (<span id="order-count-badge">2</span>)
+        </button>
+        <button onclick="switchTab('bookings')" id="tab-btn-bookings" class="pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee">
+          Table Bookings (<span id="booking-count-badge">1</span>)
+        </button>
+        <button onclick="switchTab('menu')" id="tab-btn-menu" class="pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee">
+          Menu Items
+        </button>
+      </div>
+
+      <!-- TAB 1: ORDERS -->
+      <div id="tab-orders" class="space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-serif text-2xl">Customer Orders</h2>
+          <span class="text-xs text-coffee/60">Live orders sync automatically</span>
+        </div>
+        <div id="orders-list" class="grid gap-4">
+          <!-- Sample Order 1 -->
+          <div class="rounded-2xl bg-white p-6 border border-coffee/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="font-bold text-lg">#LK-8921</span>
+                <span class="rounded-full bg-amber-100 text-amber-800 px-3 py-0.5 text-xs font-semibold">Preparing</span>
+                <span class="rounded-full bg-sand px-3 py-0.5 text-xs font-medium">Takeaway</span>
+              </div>
+              <p class="text-sm text-coffee/70 mt-2">1x Classic Cold Coffee, 2x Fresh Pastry</p>
+              <p class="text-xs text-coffee/50 mt-1">Ordered 10 mins ago • Total: ₹347</p>
+            </div>
+            <div class="flex gap-2">
+              <select onchange="alert('Order status updated!')" class="rounded-xl border border-coffee/20 px-3 py-2 text-xs font-semibold bg-cream outline-none">
+                <option>Pending</option>
+                <option selected>Preparing</option>
+                <option>Ready</option>
+                <option>Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: BOOKINGS -->
+      <div id="tab-bookings" class="hidden space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-serif text-2xl">Table Reservations</h2>
+          <span class="text-xs text-coffee/60">Includes table preferences & seating</span>
+        </div>
+        <div id="bookings-list" class="grid gap-4">
+          <!-- Shriah's Test Booking -->
+          <div class="rounded-2xl bg-white p-6 border border-coffee/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="font-bold text-lg">shriah</span>
+                <span class="rounded-full bg-green-100 text-green-800 px-3 py-0.5 text-xs font-semibold">Confirmed</span>
+              </div>
+              <p class="text-sm text-coffee/70 mt-2">📅 18 Oct 2026 • 🕒 04:30 PM • 👥 2 Guests</p>
+              <p class="text-xs text-coffee/50 mt-1">Preference: Window Seating</p>
+            </div>
+            <button onclick="this.closest('div.rounded-2xl').remove(); alert('Booking archived.');" class="rounded-xl border border-red-200 text-red-600 px-4 py-2 text-xs font-semibold hover:bg-red-50">
+              Complete / Archive
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: MENU MANAGER -->
+      <div id="tab-menu" class="hidden space-y-6">
+        <div class="flex justify-between items-center">
+          <h2 class="font-serif text-2xl">Menu Items Management</h2>
+          <button onclick="alert('Add Item modal opened')" class="rounded-full bg-coffee px-5 py-2.5 text-xs font-bold text-white transition hover:bg-caramel">
+            + Add New Item
+          </button>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Item Card -->
+          <div class="rounded-2xl bg-white p-5 border border-coffee/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="font-serif text-xl font-bold">Classic Cold Coffee</h3>
+                <span class="font-bold text-caramel">₹149</span>
+              </div>
+              <p class="text-xs text-coffee/60 mt-2">Beverages • In Stock</p>
+            </div>
+            <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
+              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+            </div>
+          </div>
+          <!-- Item Card 2 -->
+          <div class="rounded-2xl bg-white p-5 border border-coffee/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="font-serif text-xl font-bold">Classic Cappuccino</h3>
+                <span class="font-bold text-caramel">₹129</span>
+              </div>
+              <p class="text-xs text-coffee/60 mt-2">Beverages • In Stock</p>
+            </div>
+            <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
+              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+            </div>
+          </div>
+          <!-- Item Card 3 -->
+          <div class="rounded-2xl bg-white p-5 border border-coffee/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="font-serif text-xl font-bold">Fresh Pastry</h3>
+                <span class="font-bold text-caramel">₹99</span>
+              </div>
+              <p class="text-xs text-coffee/60 mt-2">Bakery • In Stock</p>
+            </div>
+            <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
+              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Admin Logic Script -->
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const loginSection = document.getElementById("login-section");
+    const dashboardSection = document.getElementById("dashboard-section");
+    const loginError = document.getElementById("login-error");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    // Check session
+    if (localStorage.getItem("lakheru_admin_logged") === "true") {
+      showDashboard();
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim();
+      const pass = document.getElementById("login-password").value.trim();
+
+      if (email === "admin@lakherucafe.com" && pass === "Lakheru@2026") {
+        localStorage.setItem("lakheru_admin_logged", "true");
+        showDashboard();
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("lakheru_admin_logged");
+      dashboardSection.classList.add("hidden");
+      loginSection.classList.remove("hidden");
+      loginForm.reset();
+    });
+
+    function showDashboard() {
+      loginSection.classList.add("hidden");
+      dashboardSection.classList.remove("hidden");
+    }
+
+    function switchTab(tabName) {
+      document.getElementById("tab-orders").classList.add("hidden");
+      document.getElementById("tab-bookings").classList.add("hidden");
+      document.getElementById("tab-menu").classList.add("hidden");
+
+      document.getElementById("tab-btn-orders").className = "pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee";
+      document.getElementById("tab-btn-bookings").className = "pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee";
+      document.getElementById("tab-btn-menu").className = "pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee";
+
+      document.getElementById(`tab-${tabName}`).classList.remove("hidden");
+      document.getElementById(`tab-btn-${tabName}`).className = "pb-3 font-serif text-lg font-bold border-b-2 border-caramel text-coffee";
+    }
+  </script>
+</body>
+</html>
