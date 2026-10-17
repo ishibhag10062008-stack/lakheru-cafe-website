@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <!-- DASHBOARD VIEW (Hidden initially) -->
+  <!-- DASHBOARD VIEW -->
   <div id="dashboard-section" class="hidden flex-1 flex flex-col">
     <!-- Top Nav -->
     <header class="border-b border-coffee/10 bg-cream/95 backdrop-blur-md sticky top-0 z-50">
@@ -94,7 +94,7 @@
       <!-- Tabs Header -->
       <div class="flex border-b border-coffee/15 gap-8 mb-8">
         <button onclick="switchTab('orders')" id="tab-btn-orders" class="pb-3 font-serif text-lg font-bold border-b-2 border-caramel text-coffee">
-          Orders (<span id="order-count-badge">2</span>)
+          Orders (<span id="order-count-badge">1</span>)
         </button>
         <button onclick="switchTab('bookings')" id="tab-btn-bookings" class="pb-3 font-serif text-lg font-bold border-b-2 border-transparent text-coffee/60 hover:text-coffee">
           Table Bookings (<span id="booking-count-badge">1</span>)
@@ -111,7 +111,6 @@
           <span class="text-xs text-coffee/60">Live orders sync automatically</span>
         </div>
         <div id="orders-list" class="grid gap-4">
-          <!-- Sample Order 1 -->
           <div class="rounded-2xl bg-white p-6 border border-coffee/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <div class="flex items-center gap-3">
@@ -141,7 +140,6 @@
           <span class="text-xs text-coffee/60">Includes table preferences & seating</span>
         </div>
         <div id="bookings-list" class="grid gap-4">
-          <!-- Shriah's Test Booking -->
           <div class="rounded-2xl bg-white p-6 border border-coffee/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <div class="flex items-center gap-3">
@@ -162,12 +160,12 @@
       <div id="tab-menu" class="hidden space-y-6">
         <div class="flex justify-between items-center">
           <h2 class="font-serif text-2xl">Menu Items Management</h2>
-          <button onclick="alert('Add Item modal opened')" class="rounded-full bg-coffee px-5 py-2.5 text-xs font-bold text-white transition hover:bg-caramel">
+          <button onclick="openModal()" class="rounded-full bg-coffee px-5 py-2.5 text-xs font-bold text-white transition hover:bg-caramel">
             + Add New Item
           </button>
         </div>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <!-- Item Card -->
+        <div id="menu-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Item Card 1 -->
           <div class="rounded-2xl bg-white p-5 border border-coffee/10 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-start">
@@ -177,8 +175,8 @@
               <p class="text-xs text-coffee/60 mt-2">Beverages • In Stock</p>
             </div>
             <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
-              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
-              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+              <button onclick="alert('Editing disabled in demo mode')" class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button onclick="this.closest('div.rounded-2xl').remove()" class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Delete</button>
             </div>
           </div>
           <!-- Item Card 2 -->
@@ -191,8 +189,8 @@
               <p class="text-xs text-coffee/60 mt-2">Beverages • In Stock</p>
             </div>
             <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
-              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
-              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+              <button onclick="alert('Editing disabled in demo mode')" class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button onclick="this.closest('div.rounded-2xl').remove()" class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Delete</button>
             </div>
           </div>
           <!-- Item Card 3 -->
@@ -205,14 +203,47 @@
               <p class="text-xs text-coffee/60 mt-2">Bakery • In Stock</p>
             </div>
             <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
-              <button class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
-              <button class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Hide</button>
+              <button onclick="alert('Editing disabled in demo mode')" class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+              <button onclick="this.closest('div.rounded-2xl').remove()" class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Delete</button>
             </div>
           </div>
         </div>
       </div>
 
     </main>
+  </div>
+
+  <!-- ADD MENU ITEM MODAL -->
+  <div id="add-modal" class="fixed inset-0 bg-coffee/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-coffee/10">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="font-serif text-2xl font-bold">Add New Menu Item</h3>
+        <button onclick="closeModal()" class="text-coffee/50 hover:text-coffee font-bold text-xl">✕</button>
+      </div>
+      <form id="add-item-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1" for="item-name">Item Name</label>
+          <input type="text" id="item-name" required placeholder="e.g. Hazelnut Latte" class="w-full rounded-xl border border-coffee/15 px-4 py-3 text-sm outline-none focus:border-caramel bg-cream/30" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1" for="item-price">Price (₹)</label>
+          <input type="number" id="item-price" required placeholder="e.g. 179" class="w-full rounded-xl border border-coffee/15 px-4 py-3 text-sm outline-none focus:border-caramel bg-cream/30" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-1" for="item-category">Category</label>
+          <select id="item-category" class="w-full rounded-xl border border-coffee/15 px-4 py-3 text-sm outline-none focus:border-caramel bg-cream/30">
+            <option>Beverages</option>
+            <option>Bakery</option>
+            <option>Snacks</option>
+            <option>Desserts</option>
+          </select>
+        </div>
+        <div class="flex gap-3 pt-4">
+          <button type="button" onclick="closeModal()" class="flex-1 rounded-full border border-coffee/20 py-3 text-sm font-bold text-coffee hover:bg-sand">Cancel</button>
+          <button type="submit" class="flex-1 rounded-full bg-coffee py-3 text-sm font-bold text-white hover:bg-caramel">Save Item</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Admin Logic Script -->
@@ -222,8 +253,9 @@
     const dashboardSection = document.getElementById("dashboard-section");
     const loginError = document.getElementById("login-error");
     const logoutBtn = document.getElementById("logout-btn");
+    const addModal = document.getElementById("add-modal");
+    const addItemForm = document.getElementById("add-item-form");
 
-    // Check session
     if (localStorage.getItem("lakheru_admin_logged") === "true") {
       showDashboard();
     }
@@ -265,6 +297,41 @@
       document.getElementById(`tab-${tabName}`).classList.remove("hidden");
       document.getElementById(`tab-btn-${tabName}`).className = "pb-3 font-serif text-lg font-bold border-b-2 border-caramel text-coffee";
     }
+
+    function openModal() {
+      addModal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+      addModal.classList.add("hidden");
+      addItemForm.reset();
+    }
+
+    addItemForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("item-name").value;
+      const price = document.getElementById("item-price").value;
+      const category = document.getElementById("item-category").value;
+
+      const card = document.createElement("div");
+      card.className = "rounded-2xl bg-white p-5 border border-coffee/10 flex flex-col justify-between";
+      card.innerHTML = `
+        <div>
+          <div class="flex justify-between items-start">
+            <h3 class="font-serif text-xl font-bold">${name}</h3>
+            <span class="font-bold text-caramel">₹${price}</span>
+          </div>
+          <p class="text-xs text-coffee/60 mt-2">${category} • In Stock</p>
+        </div>
+        <div class="flex gap-2 mt-6 pt-4 border-t border-coffee/10">
+          <button onclick="alert('Editing disabled in demo mode')" class="flex-1 rounded-xl border border-coffee/20 py-2 text-xs font-semibold hover:bg-coffee hover:text-white transition">Edit</button>
+          <button onclick="this.closest('div.rounded-2xl').remove()" class="flex-1 rounded-xl border border-red-200 text-red-600 py-2 text-xs font-semibold hover:bg-red-50 transition">Delete</button>
+        </div>
+      `;
+
+      document.getElementById("menu-grid").prepend(card);
+      closeModal();
+    });
   </script>
 </body>
 </html>
